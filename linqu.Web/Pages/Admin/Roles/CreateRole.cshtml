@@ -1,0 +1,131 @@
+﻿@page
+@using linqu.Core.Interfaces
+@using linqu.DataLayer.Entities.Users
+@model linqu.Web.Pages.Admin.Roles.CreateRoleModel
+
+@section Styles
+{
+<link rel="stylesheet" type="text/css" href="~/AdminContent/assets/css/forms/theme-checkbox-radio.css">
+}
+
+@inject IPermissionService _permissionService;
+
+@{
+    Layout = "Layouts/_AdminLayout";
+
+    ViewData["Title"] = "ایجاد نقش";
+    ViewData["BreadCrumb"] = "مدیریت نقش ها / ایجاد نقش";
+
+    List<Permission> permissions = _permissionService.GetPermissions();
+}
+
+
+
+<form method="post">
+    <div class="row layout-top-spacing">
+
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+            <div class="row">
+                <div class="col-lg-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>افزودن نقش </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area">
+                            <div class="form-group mb-4">
+                                <label>عنوان نقش</label>
+                                <input asp-for="NewRole.RoleTitle" type="text" class="form-control" placeholder="ادمین ، نویسنده . .">
+                                <span asp-validation-for="NewRole.RoleTitle" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group mr-1">
+                                <label>مرتبه بزرگی نقش</label>
+                                <select asp-for="NewRole.OrderOfMagnitude" class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                <span asp-validation-for="NewRole.OrderOfMagnitude" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">افزودن نقش</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+            <div class="row">
+                <div class="col-lg-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>لیست دسترسی ها </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area">
+                            <ul type="none">
+
+                                @foreach (var permission in permissions.Where(p => p.ParentID == null))
+                                {
+                                    <li class="mt-3">
+
+                                        <div class="n-chk">
+                                            <label class="new-control new-checkbox checkbox-primary">
+                                                <input type="checkbox" class="new-control-input" name="selectedPermission" value="@permission.PermissionId">
+                                                <span class="new-control-indicator"></span>@permission.PermissionTitle
+                                            </label>
+                                        </div>
+
+                                        @if (permissions.Any(p => p.ParentID == permission.ParentID))
+                                        {
+                                            <ul type="none">
+
+                                                @foreach (var sub in permissions.Where(p => p.ParentID == permission.PermissionId))
+                                                {
+                                                    <li>
+                                                        <div class="n-chk">
+                                                            <label class="new-control new-checkbox checkbox-primary">
+                                                                <input type="checkbox" class="new-control-input" name="selectedPermission" value="@sub.PermissionId">
+                                                                <span class="new-control-indicator"></span>@sub.PermissionTitle
+                                                            </label>
+                                                        </div>
+
+                                                        @if (permissions.Any(p => p.ParentID == sub.ParentID))
+                                                        {
+                                                            <ul>
+                                                                @foreach (var sub2 in permissions.Where(p => p.ParentID == sub.PermissionId))
+                                                                {
+                                                                    <div class="n-chk">
+                                                                        <label class="new-control new-checkbox checkbox-primary">
+                                                                            <input type="checkbox" class="new-control-input" name="selectedPermission" value="@sub2.PermissionId">
+                                                                            <span class="new-control-indicator"></span>@sub2.PermissionTitle
+                                                                        </label>
+                                                                    </div>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</form>

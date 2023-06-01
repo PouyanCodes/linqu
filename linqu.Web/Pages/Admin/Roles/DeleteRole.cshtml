@@ -1,0 +1,93 @@
+﻿@page "{id}"
+
+@using linqu.Core.Interfaces
+@using linqu.Core.Security
+@using linqu.DataLayer.Entities.Users
+@model linqu.Web.Pages.Admin.Roles.DeleteRoleModel
+
+@inject IRoleService _roleService;
+
+@{
+    Layout = "Layouts/_AdminLayout";
+
+    ViewData["Title"] = "حذف نقش";
+    ViewData["BreadCrumb"] = "مدیریت نقش ها / حذف نقش";
+
+    var Roles = _roleService.GetRoles();
+    var myRoleMagnitute = _roleService.GetRoleMagnitudeOrder(User.Identity.GetUserRoleId());
+}
+
+@section Styles
+{
+<link rel="stylesheet" type="text/css" href="~/AdminContent/assets/css/forms/theme-checkbox-radio.css">
+}
+
+
+<form method="post" enctype="multipart/form-data">
+
+    <input type="hidden" asp-for="roleId" />
+
+    <div class="row layout-top-spacing">
+
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+            <div class="row">
+                <div class="col-lg-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>حذف نقش </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area">
+                            <div class="form-group mb-4">
+                                <label>آیا از حذف نقش مطمئن هستید ؟</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">حذف نقش</button>
+                            <button asp-page="roleslist" class="btn btn-primary">بازگشت</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+            <div class="row">
+                <div class="col-lg-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>جایگذین نقش </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area">
+                            <ul type="none">
+
+                                <p>نقش جایگذین کاربر را انتخاب کنید</p>
+
+                                @foreach (var role in Roles)
+                                {
+                                    if (role.OrderOfMagnitude > myRoleMagnitute && role.RoleId != User.Identity.GetUserRoleId())
+                                    {
+                                        <div class="n-chk">
+                                            <label class="new-control new-radio radio-classic-warning">
+                                                <input type="radio" class="new-control-input" name="selectedRoles" value="@role.RoleId" checked>
+                                                <span class="new-control-indicator"></span>@role.RoleTitle
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</form>

@@ -1,0 +1,156 @@
+﻿@page
+@using linqu.Core.Interfaces
+@using linqu.Core.Security
+@model linqu.Web.Pages.Admin.Users.CreateUserModel
+
+@inject IRoleService _roleService;
+
+@{
+    Layout = "Layouts/_AdminLayout";
+
+    ViewData["Title"] = "ساخت کاربر";
+    ViewData["BreadCrumb"] = "مدیریت کاربران / ساخت کاربر";
+
+    var Roles = _roleService.GetRoles();
+    var myRoleMagnitute = _roleService.GetRoleMagnitudeOrder(User.Identity.GetUserRoleId());
+}
+
+@section Styles
+{
+<link rel="stylesheet" type="text/css" href="~/AdminContent/assets/css/plugins/input-style.css" />
+<link rel="stylesheet" type="text/css" href="~/AdminContent/assets/css/forms/theme-checkbox-radio.css">
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row layout-top-spacing">
+
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+            <div class="row">
+                <div class="col-lg-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>ثبت نام کاربر </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area">
+                            <div class="form-group mb-4">
+                                <label>نام و نام خانوادگی</label>
+                                <input asp-for="NewUser.FullName" type="text" class="form-control" placeholder="سردار نبوی . .">
+                                <span asp-validation-for="NewUser.FullName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label>ایمیل</label>
+                                <input asp-for="NewUser.Email" type="email" class="form-control" placeholder="example@support.com">
+                                <span asp-validation-for="NewUser.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label> کلمه عبور</label>
+                                <input asp-for="NewUser.Password" type="password" class="form-control" placeholder="* * * * *">
+                                <span asp-validation-for="NewUser.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label for="inputAddress2">تکرار کلمه عبور</label>
+                                <input asp-for="NewUser.ConfirmPassword" type="password" class="form-control" placeholder="* * * * *">
+                                <span asp-validation-for="NewUser.ConfirmPassword" class="text-danger"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary  btn-lg">افزودن کاربر</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+            <div class="row">
+                <div class="col-lg-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>تصویر کاربر </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area">
+                            <div class="form-group mb-4">
+                                <p>  تصویر کاربر را انتخاب کنید </p>
+                                <input asp-for="NewUser.UserAvatarFile" type="file" class="mt-1" accept="image">
+                                <img id="imgAvatar" class="card-img-top mt-4" src="~/img/UserAvatar/Default.png" alt="Card image cap">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>نقش کاربر را انتخاب کنید</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area">
+                            <div class="form-group mb-4 ">
+
+                                @foreach (var role in Roles)
+                                {
+                                    if (role.OrderOfMagnitude > myRoleMagnitute)
+                                    {
+                                        <div class="n-chk">
+                                            <label class="new-control new-radio radio-classic-warning">
+                                                <input type="radio" class="new-control-input" name="selectedRoles" value="@role.RoleId" checked>
+                                                <span class="new-control-indicator"></span>@role.RoleTitle
+                                            </label>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</form>
+
+
+
+
+
+@section Scripts
+{
+
+<script src="~/AdminCintent/plugins/file-upload/file-upload-with-preview.min.js"></script>
+
+<script>
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#imgAvatar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#NewUser_UserAvatarFile").change(function() {
+        readURL(this);
+    });
+</script>
+
+}

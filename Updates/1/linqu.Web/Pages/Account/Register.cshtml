@@ -1,0 +1,76 @@
+﻿@page
+@model linqu.Web.Pages.Shared.RegisterModel
+@{
+    ViewData["Title"] = "ثبت نام";
+}
+
+<section class="bg-auth-home d-table w-100">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7 col-md-6">
+                <div class="me-lg-5">
+                    <img src="~/WebContent/images/user/signup.svg" class="img-fluid d-block mx-auto" alt="Signup Logo">
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-6">
+                <div class="card shadow rounded border-0">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">ثبت نام </h4>
+                        <form method="post" class="login-form mt-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">نام شما  <span class="text-danger">*</span></label>
+                                        <div class="form-icon position-relative">
+                                            <i data-feather="user" class="fea icon-sm icons"></i>
+                                            <input asp-for="Register.FullName" type="text" class="form-control ps-5" placeholder="نام و نام خانوادگی" required>
+                                            <span asp-validation-for="Register.FullName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">ایمیل شما <span class="text-danger">*</span></label>
+                                        <div class="form-icon position-relative">
+                                            <i data-feather="mail" class="fea icon-sm icons"></i>
+                                            <input asp-for="Register.Email" type="email" class="form-control ps-5" placeholder="ایمیل" required>
+                                            <span asp-validation-for="Register.Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">رمز عبور  <span class="text-danger">*</span></label>
+                                        <div class="form-icon position-relative">
+                                            <i data-feather="key" class="fea icon-sm icons"></i>
+                                            <input asp-for="Register.Password" type="password" class="form-control ps-5" placeholder="رمز عبور " required>
+                                            <span asp-validation-for="Register.Password" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">تکرار رمز عبور <span class="text-danger">*</span></label>
+                                        <div class="form-icon position-relative">
+                                            <i data-feather="key" class="fea icon-sm icons"></i>
+                                            <input asp-for="Register.ConfirmPassword" type="password" class="form-control ps-5" placeholder="تکرار رمز عبور " required>
+                                            <span asp-validation-for="Register.ConfirmPassword" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary">ثبت نام </button>
+                                    </div>
+                                </div>
+                                <div class="mx-auto">
+                                    <p class="mb-0 mt-3"><small class="text-dark me-2">قبلاً حساب دارید؟</small> <a href="/Account/Login" class="text-dark fw-bold">وارد شوید </a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

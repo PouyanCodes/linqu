@@ -1,0 +1,80 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <partial name="Shared/PartialViews/UserPanel/_MetaTags" />
+
+    <title> کوتاه کننده لینک linqu | @ViewData["Title"]</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/WebContent/images/favicon.ico">
+
+    <partial name="Shared/PartialViews/UserPanel/_Styles" />
+    @RenderSection("Styles",false)
+
+</head>
+
+<body>
+
+    <partial name="Shared/PartialViews/UserPanel/_Navbar" />
+    <partial name="Shared/PartialViews/UserPanel/_ProfileHeader" />
+
+    <section class="section mt-60">
+        <div class="container mt-lg-3">
+            <div class="row">
+                <div class="col-lg-4 col-12 d-lg-block ">
+                    <div class="sidebar sticky-bar p-4 rounded shadow">
+
+                        <div class="widget mt-4">
+                            <ul class="list-unstyled sidebar-nav mb-0" id="navmenu-nav">
+                                <li class="navbar-item account-menu px-0">
+                                    <a href="/UserPanel/Dashboard" class="navbar-link d-flex rounded shadow align-items-center py-2 px-4">
+                                        <h6 class="mb-0 ms-2">خانه </h6>
+                                    </a>
+                                </li>
+
+                                <li class="navbar-item account-menu px-0 mt-2">
+                                    <a href="/UserPanel/links/LinksManagement" class="navbar-link d-flex rounded shadow align-items-center py-2 px-4">
+                                        <h6 class="mb-0 ms-2">مدیریت لینک ها </h6>
+                                    </a>
+                                </li>
+
+                                <li class="navbar-item account-menu px-0 mt-2">
+                                    <a href="/UserPanel/EditProfile" class="navbar-link d-flex rounded shadow align-items-center py-2 px-4">
+                                        <h6 class="mb-0 ms-2">ویرایش اطلاعات کاربری </h6>
+                                    </a>
+                                </li>
+
+                                <li class="navbar-item account-menu px-0 mt-2">
+                                    <a href="/UserPanel/ChangePassword" class="navbar-link d-flex rounded shadow align-items-center py-2 px-4">
+                                        <h6 class="mb-0 ms-2">تغیر کلمه عبور </h6>
+                                    </a>
+                                </li>
+                                <li class="navbar-item account-menu px-0 mt-2">
+                                    <a href="/Account/Logout" class="navbar-link d-flex rounded shadow align-items-center py-2 px-4">
+                                        <h6 class="mb-0 ms-2">خروج </h6>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-8 col-12">
+                    @RenderBody()
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <partial name="Shared/PartialViews/UserPanel/_Footer" />
+
+    <partial name="Shared/PartialViews/UserPanel/_Scripts" />
+    @RenderSection("Scripts",false)
+
+</body>
+</html>

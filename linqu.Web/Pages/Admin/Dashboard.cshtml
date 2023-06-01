@@ -1,0 +1,45 @@
+﻿@page
+@using linqu.Core.Interfaces
+@using linqu.Core.Security
+@model linqu.Web.Pages.Admin.DashboardModel
+
+@{
+    Layout = "Layouts/_AdminLayout";
+
+    ViewData["Title"] = "داشبورد";
+    ViewData["BreadCrumb"] = "داشبورد";
+}
+
+@inject ILinkService _linkService
+
+@section Styles
+{
+<link rel="stylesheet" type="text/css" href="~/AdminContent/assets/css/dashboard/dash_2.css" />
+<link rel="stylesheet" type="text/css" href="~/AdminContent/plugins/apex/apexcharts.css">
+}
+
+
+<div class="row layout-top-spacing">
+    <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 layout-spacing">
+        <div class="widget widget-one">
+            <div class="widget-heading">
+                <h6>آمار</h6>
+            </div>
+            <div class="w-chart">
+                <div class="w-chart-section">
+                    <div class="w-detail">
+                        <p class="w-title">تعداد لینک ها</p>
+                        <p class="w-stats">@_linkService.GetLinkCount()</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+<script src="~/AdminContent/assets/css/dashboard/apexcharts.min.js"></script>
+<script src="~/AdminContent/assets/css/dashboard/dash_2.js"></script>
+}

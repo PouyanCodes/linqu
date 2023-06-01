@@ -1,0 +1,55 @@
+﻿@page
+@using linqu.Core.Convertors
+@model linqu.Web.Pages.UserPanel.LinksManagementModel
+@{
+    Layout = "Layouts/_UserPanelLayout";
+    ViewData["Title"] = "پنل کاربری - مدیریت لینک ها";
+}
+
+
+<div class="mt-2">
+    <a href="/UserPanel/Links/CreateLink" class="btn btn-primary"> ساخت لینک جدید </a>
+</div>
+
+
+<div class="col mt-4 pt-2" id="tables">
+    <div class="component-wrapper rounded shadow">
+        <div class="p-4 border-bottom">
+            <h4 class="title mb-0"> لیست لینک ها </h4>       
+        </div>
+        <div class="p-4">
+            <div class="table-responsive bg-white shadow rounded">
+                <table class="table mb-0 table-center">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="border-bottom">نام </th>
+                            <th scope="col" class="border-bottom">آدرس لینک</th>
+                            <th scope="col" class="border-bottom">تاریخ ایجاد</th>
+                            <th scope="col" class="border-bottom">کد دسترسی</th>
+                            <th scope="col" class="border-bottom">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var link in Model.Links)
+                        {
+                            <tr>
+                                <td scope="row">@link.LinkTitle</td>
+                                <td class="text-primary">
+                                    @(link.LinkAddress.Length>20 ? ".." + link.LinkAddress.Substring(0,20) : link.LinkAddress )
+                                </td>
+                                <td>@link.CreateDate.ToShamsi()</td>
+                                <td>@link.ShortKey</td>
+                                <td>
+                                    <a href="/UserPanel/Links/EditLink/@link.LinkId" class="text-success">ویرایش</a> -
+                                    <a href="/UserPanel/Links/DeleteLink/@link.LinkId" class="text-danger">حذف</a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+﻿
+<!--========= Navbar Start =========-->
+
+    <header id="topnav" class="defaultscroll sticky">
+        <div class="container">
+
+            <!-- Logo Container-->
+
+            <div>
+                <a class="logo" href="/">
+                    <img src="~/WebContent/images/logo-dark.png" height="24" alt="Website Logo">
+                </a>
+            </div>
+            <div class="buy-button">
+                <a href="/userpanel/dashboard" class="btn btn-primary">
+                    @(User.Identity.IsAuthenticated ? "پنل کاربری":"ورود به سایت")</a>
+            </div>
+
+            <!-- End Logo Container-->
+
+            <div class="menu-extras">
+                <div class="menu-item">
+
+                    <!-- Mobile Menu Toggle-->
+                    <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
+                        <div class="lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </a>
+                    <!-- End Mobile Menu Toggle-->
+
+                </div>
+            </div>
+
+            <div id="navigation">
+
+                <!-- Navigation Menu-->
+
+                <ul class="navigation-menu">
+                    <li><a href="/" class="sub-menu-item">صفحه اصلی </a></li>
+                    <li><a href="index.html" class="sub-menu-item">تماس با ما </a></li>
+                </ul>
+
+                <!--End Navigation Menu-->
+
+            </div>
+        </div>
+    </header>
+
+<!--========= Navbar End =========-->
+  

@@ -1,0 +1,169 @@
+﻿@page
+@using linqu.Core.Interfaces
+@using linqu.Core.Security
+@model linqu.Web.Pages.Admin.Users.UsersManagement
+
+@inject IRoleService _roleService;
+
+
+
+@{
+    Layout = "Layouts/_AdminLayout";
+
+    ViewData["Title"] = "ساخت کاربر";
+    ViewData["BreadCrumb"] = "مدیریت کاربران ";
+
+    var myRoleMagnitute = _roleService.GetRoleMagnitudeOrder(User.Identity.GetUserRoleId());
+
+}
+
+@section Styles
+{
+<link rel="stylesheet" type="text/css" href="~/AdminContent/plugins/table/datatable/datatables.css">
+<link rel="stylesheet" type="text/css" href="~/AdminContent/assets/css/forms/theme-checkbox-radio.css">
+<link rel="stylesheet" type="text/css" href="~/AdminContent/plugins/table/datatable/dt-global_style.css">
+<link rel="stylesheet" type="text/css" href="~/AdminContent/plugins/table/datatable/custom_dt_custom.css">
+<link rel="stylesheet" type="text/css" href="~/AdminContent/assets/css/components/custom-modal.css">
+}
+
+<div class="row layout-top-spacing">
+    <div class="col-lg-12">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-header">
+                <div class="row">
+                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                        <h4> لیست کاربران </h4>
+                        <a href="/Admin/Users/CreateUser" class="btn btn-primary mb-4 mr-2 btn-lg">افزودن کاربر جدید</a>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-content widget-content-area">
+                <div class="table-responsive mb-4">
+                    <table id="style-3" class="table style-3  table-hover non-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">تصویر</th>
+                                <th>نام و نام خانوادگی</th>
+                                <th>ایمیل</th>
+                                <th>نقش</th>
+                                <th class="text-center">عمل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var user in Model.Users)
+                            {
+                                @if (user.UserMagnitude > myRoleMagnitute && user.UserMagnitude != myRoleMagnitute)
+                                {
+                                    <tr role="row" class="odd">
+                                        <td>
+                                            <a class="profile-img" href="javascript: void(0);">
+                                                <img src="~/img/UserAvatar/Thumbnail/@user.UserAvatar" class="profile-img" alt="product">
+                                            </a>
+                                        </td>
+                                        <td class="user-name">@user.FullName</td>
+                                        <td>@user.Email</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div class=" align-self-center d-m-success  mr-1 data-marker"></div>
+                                                <span class="label label-success">@user.UserRole</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="dropdown custom-dropdown">
+                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                                                </a>
+
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
+                                                    <a class="dropdown-item" href="/Admin/Users/EditUser/@user.userId">ویرایش</a>
+                                                    <a class="dropdown-item" onclick="GoDeleteModal(@user.userId);" data-target="#deleteModal" data-toggle="modal" data-placement="top" title="" data-original-title="حذف">حذف</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- Delete Modal -->
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">حذف کاربر</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text"> آیا از حذف این کاربر مطمئن هستید ؟  </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>  نادیده گرفتن</button>
+                <a href="#" type="button" class="btn btn-primary" id="modalHref">حذف کن</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts
+{
+<script src="~/AdminContent/plugins/table/datatable/datatables.js"></script>
+
+
+<script>
+        function GoDeleteModal(id)
+    {
+        var modalRouteTag = document.getElementById("modalHref");
+        modalRouteTag.setAttribute("href","DeleteUser/" + id);
+    }
+
+    c3 = $('#style-3').DataTable({
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>' },
+                "sInfo": "صفحه _PAGE_ از _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "جستجو کنید...",
+               "sLengthMenu": "نتایج :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [5, 10, 20, 50],
+            "pageLength": 5
+        });
+
+        multiCheck(c3);
+
+</script>
+}

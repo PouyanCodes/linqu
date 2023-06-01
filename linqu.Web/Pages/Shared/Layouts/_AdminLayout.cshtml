@@ -1,0 +1,49 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <partial name="Shared/PartialViews/AdminPanel/_MetaTags" />
+
+    <title>@ViewData["Title"]</title>
+
+    <partial name="Shared/PartialViews/AdminPanel/_Styles" />
+    @RenderSection("Styles",false)
+</head>
+
+
+
+<body>
+
+    <partial name="Shared/PartialViews/AdminPanel/_Loader" />
+
+    <partial name="Shared/PartialViews/AdminPanel/_Navbar" />
+
+    <!--  BEGIN MAIN CONTAINER  -->
+    <div class="main-container" id="container">
+
+        <div class="overlay"></div>
+        <div class="search-overlay"></div>
+
+        <partial name="Shared/PartialViews/AdminPanel/_SideBar" />
+
+        <!--  BEGIN CONTENT AREA  -->
+
+        <div id="content" class="main-content">
+            <div class="layout-px-spacing">
+                @RenderBody()
+            </div>
+        </div>
+
+        <!--  END CONTENT AREA  -->
+
+    </div>
+
+    <!-- END MAIN CONTAINER -->
+
+    <partial name="Shared/PartialViews/AdminPanel/_Scripts" />
+
+    @RenderSection("Scripts",false)
+
+</body>
+</html>

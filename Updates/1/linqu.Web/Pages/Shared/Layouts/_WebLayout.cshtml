@@ -1,0 +1,34 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <partial name="Shared/PartialViews/Web/_MetaTags" />
+
+    <title> کوتاه کننده لینک linqu | @ViewData["Title"]</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/WebContent/images/favicon.ico">
+
+    <partial name="Shared/PartialViews/Web/_Styles" />
+    @RenderSection("Styles",false)
+
+</head>
+
+<body>
+   
+    <partial name="Shared/PartialViews/Web/_Navbar" />
+
+   @RenderBody()
+
+   <partial name="Shared/PartialViews/Web/_Footer" />
+    
+    <!-- Back To Top -->
+    <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
+    
+    <partial name="Shared/PartialViews/Web/_Scripts" />
+    @RenderSection("Scripts",false)
+
+</body>
+</html>
